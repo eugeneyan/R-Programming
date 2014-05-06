@@ -1,5 +1,5 @@
 #Quizzes 
-
+setwd("~/Eugene's/Coursera/R Programming/Git")
 hw1 <- read.csv("hw1_data.csv")
 
 x <- c(4, TRUE)
