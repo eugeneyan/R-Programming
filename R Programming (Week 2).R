@@ -37,7 +37,7 @@ h <- function(x, y = NULL, d = 3L) {
         z <- z + y
 }
 
-# Programming Assignment 1
+# Programming Assignment Part 1
 directory <- ("specdata")
 id <- 70:72
 pollutant <- "sulfate"
@@ -46,6 +46,8 @@ filenames <- list.files(directory)
 filenames <- filenames[id]
 filenames <- paste(directory, "//", filenames, sep = "")
 all_data <- data.frame(Date = numeric(), sulphate = numeric(), nitrate = numeric(), ID = numeric())
+# sapply(id, rbind(all_data, read.csv(filenames)))
+
 for (i in 1:length(id)) {
     all_data <- rbind(all_data, read.csv(filenames[i]))
 }
@@ -63,7 +65,7 @@ pollutantmean <- function(directory, pollutant, id = 1:332) {
     mean(all_data[, pollutant], na.rm = T)   
 }
 
-# Programming Assignment 2
+# Programming Assignment Part 2
 rm(list = ls())
 directory <- ("specdata")
 ids <- c(2, 4, 6, 8, 10)
@@ -92,6 +94,37 @@ complete <- function(directory, ids = 1:332) {
     data.frame(id, nobs, stringsAsFactors = F)
 }
 
+# Programming Assignment Part 3
+threshold <- 1000
+directory <- "specdata"
+source("complete.R")
+
+filenames <- list.files(directory)
+filenames <- paste(directory, "//", filenames, sep = "")
+all_files <- complete(directory)
+cor_vector <- numeric()
+for (i in 1:nrow(all_files)) {
+    if (all_files[i,2] > threshold) {
+        cor_vector <- c(cor_vector, cor(read.csv(filenames[i])$sulfate, read.csv(filenames[i])$nitrate, use = "pairwise.complete.obs")) 
+    }
+}
+cor_vector
+
+corr <- function(directory, threshold = 0) {
+    filenames <- list.files(directory)
+    filenames <- paste(directory, "//", filenames, sep = "")
+    all_files <- complete(directory)
+    cor_vector <- numeric()
+    for (i in 1:nrow(all_files)) {
+        if (all_files[i,2] > threshold) {
+            cor_vector <- c(cor_vector, cor(read.csv(filenames[i])$sulfate, read.csv(filenames[i])$nitrate, use = "pairwise.complete.obs")) 
+        }
+    }
+    cor_vector
+}
+
+source("complete.R")
+source("corr.R")
 rm(list = ls())
 source("http://d396qusza40orc.cloudfront.net/rprog%2Fscripts%2Fsubmitscript1.R")
 CLASS <- c("rprog-003")
