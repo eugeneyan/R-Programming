@@ -37,7 +37,7 @@ h <- function(x, y = NULL, d = 3L) {
         z <- z + y
 }
 
-#Programming Assignment
+# Programming Assignment 1
 directory <- ("specdata")
 id <- 70:72
 pollutant <- "sulfate"
@@ -61,6 +61,35 @@ pollutantmean <- function(directory, pollutant, id = 1:332) {
         all_data <- rbind(all_data, read.csv(filenames[i]))
     }
     mean(all_data[, pollutant], na.rm = T)   
+}
+
+# Programming Assignment 2
+rm(list = ls())
+directory <- ("specdata")
+ids <- c(2, 4, 6, 8, 10)
+id <- numeric(length(ids))
+nobs <- numeric(length(ids))
+filenames <- list.files(directory)
+filenames <- filenames[id]
+filenames <- paste(directory, "//", filenames, sep = "")
+for (i in 1:length(ids)) {
+    id[i] <- ids[i]
+    nobs[i] <- sum(complete.cases(read.csv(filenames[i])))
+}
+data.frame(id, nobs, stringsAsFactors = F)
+
+
+complete <- function(directory, ids = 1:332) {
+    filenames <- list.files(directory)
+    filenames <- filenames[ids]
+    filenames <- paste(directory, "//", filenames, sep = "")
+    id <- numeric(length(ids))
+    nobs <- numeric(length(ids))
+    for (i in 1:length(ids)) {
+        id[i] <- ids[i]
+        nobs[i] <- sum(complete.cases(read.csv(filenames[i])))
+    }
+    data.frame(id, nobs, stringsAsFactors = F)
 }
 
 rm(list = ls())
