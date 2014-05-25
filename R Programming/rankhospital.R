@@ -19,7 +19,7 @@ rankhospital <- function(State, Outcome, Num = 'best') {
     outcome_data <- subset(outcome_data, state == State)
     
     # order the data by hospital and score
-    outcome_data[Outcome] <- as.data.frame(sapply(outcome_data[Outcome], as.numeric))
+    outcome_data[Outcome] <- suppressWarnings(as.data.frame(sapply(outcome_data[Outcome], as.numeric)))
     outcome_data <- outcome_data[order(outcome_data$hospital, decreasing = FALSE), ]
     outcome_data <- outcome_data[order(outcome_data[Outcome], decreasing = FALSE), ]
     
@@ -28,9 +28,9 @@ rankhospital <- function(State, Outcome, Num = 'best') {
     
     # create index of hospital_row based on Num
     if (Num == 'best') {
-        hospital_row <- which.min(score)
+        hospital_row <- suppressWarnings(which.min(score))
     } else if (Num == 'worst') {
-        hospital_row <- which.max(score)
+        hospital_row <- suppressWarnings(which.max(score))
     } else {
         hospital_row <- Num
     }
